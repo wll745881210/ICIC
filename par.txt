@@ -1,0 +1,7 @@
+CIC
+
+Init
+input_file  ./QSO_cat_L0_c0.txt
+output_file ./QSO_cat_L0_c0_cic.txt
+dim_dec     0.05
+dim_ra      0.05

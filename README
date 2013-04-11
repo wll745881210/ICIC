@@ -1,0 +1,112 @@
++------------------------------------------------------------------------+
+|              Integration Counts-in-Cells Calculator in C++             |
+|                       Author: Lile 'Patrick' Wang                      |
+|                       email:  lilew@princeton.edu                      |
+|                           Sept. 17th, 2012                             |
++------------------------------------------------------------------------+
+
+
+==========================================================================
+0. Introduction
+
+   This code calculates two-dimensional (angular) counts-in-cells
+   statistcs for galaxy catalogs. It adopts the scheme of:
+
+   +--------------------------------------------------+
+   |Szapudi, I., 1998 ApJ, 497: 16.;                  |
+   |http://adsabs.harvard.edu/abs/1998ApJ...497...16S |
+   +--------------------------------------------------+
+
+   i.e., it works in a line-sweeping method; see figure 1 and
+   pertinent discussions of Szapudi (1998) for details.
+
+
+==========================================================================
+1. Install and dependencies
+
+   Written in standard C++ with STL (standard template library), this
+   routine is tested with g++ (version >= 4.0) and requires GNU Make.
+
+   Type make in the console:
+
+   $ make
+
+   which should look like this:
+
+
+   +----------------------------------------------------------+
+   | xterm                                                    |
+   +----------------------------------------------------------+
+   | -bash-3.2 $ make                                         |
+   | g++ -O3 -c -o main.o main.cpp                            |
+   | g++ -O3 -c -o cell_int2d.o cell_int2d.cpp		      |
+   | g++ -O3 -c -o input.o input.cpp			      |
+   | g++ -O3 main.o cell_int2d.o input.o -o int_cic	      |
+   |                                                          |
+   | -bash-3.2 $ ./int_cic par.txt                            |
+   | ...                                                      |
+   | ...                                                      |
+   |                                                          |
+   +----------------------------------------------------------+
+
+   and the output binary file is named "int_cic" (short for
+   integration counts-in-cell).
+
+
+==========================================================================
+2. Usage
+
+  --------------------------------------------------
+  2.0 Input catalog
+
+   The input catalog should be an ASCII file. Each row presents an
+   object, while the first two columns should indicate RA and DEC
+   respectively (this routine does not care what you put in the
+   following columns).
+
+  --------------------------------------------------
+  2.1 Specifying input parameters
+
+   You need an input file, whose template is stored as "par.txt" in
+   this directory. It looks like this:
+
+   +-------------------------------------------+
+   |CIC                                        |
+   |                                           |
+   |Init                                       |
+   |input_file  /path/to/the/input/catalog.txt |
+   |output_file /path/to/the/output/file.txt   |
+   |dim_dec     0.8                            |
+   |dim_ra      0.8                            |
+   +-------------------------------------------+
+
+   "CIC" and "Init" are specific headers; please leave them intact
+   ("Init" should also be right before the other keys).
+
+   The keys "dim_dec" and "dim_ra" indicates the dimension of each
+   cell along dec and RA direction in degree (note that dim_ra is
+   written in the actual arc length, i.e. cos(DEC) is taken into
+   account).
+
+   You can modify the sequence of keys but please do not leave any
+   empty lines since the key "Init".
+
+   Please guarantee that the path for the output file exists!
+   Otherwise no output will be given.
+
+  --------------------------------------------------
+  2.2 Run!
+
+   Suppose you have such an input file as stated in 2.1 named
+   "par.txt", then you should run the calculation like this:
+
+   $ ./int_cic par.txt
+
+
+==========================================================================
+3. Known bugs
+
+   It may not deal with those situations where the boundary of the
+   survey area is very irregular in the RA-DEC space.
+
+
